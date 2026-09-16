@@ -8,7 +8,7 @@ together:
 
 | Where | What |
 | --- | --- |
-| `.github/workflows/ci.yml` | `postgres:18` service image (both test jobs) |
+| `.github/workflows/ci.yml` | `postgres:18` service image |
 | `test/database_version_test.rb` | fails if the connected server isn't 18 |
 | homelab, `sites/akron` | the CNPG `Cluster` image ([#1](https://github.com/timgladwell/timbot/issues/1)) |
 
