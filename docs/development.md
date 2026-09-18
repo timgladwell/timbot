@@ -37,9 +37,8 @@ docker compose -p timbot down -v
 
 ## Postgres version pin
 
-timbot runs **PostgreSQL 18** everywhere: in the dev container, in CI and on the
-`akron` cluster (ADR 0001). The version is pinned in these places, which move
-together:
+timbot is developed and tested against **PostgreSQL 18**, pinned in these places,
+which move together:
 
 | Where | What |
 | --- | --- |
@@ -47,16 +46,23 @@ together:
 | `.devcontainer/devcontainer.json` | `postgres-client` feature version (`psql`, `pg_dump`) |
 | `.github/workflows/ci.yml` | `postgres` service image |
 | `test/database_version_test.rb` | fails if the connected server isn't major 18 |
-| homelab, `sites/akron` | the CNPG `Cluster` image ([#1](https://github.com/timgladwell/timbot/issues/1)) |
 
 The dev container and CI use the same image tag. The version test runs in both,
 so a mismatched server fails `bin/rails test` rather than drifting unnoticed.
+
+The server version on `akron` is homelab's, not timbot's (ADR 0003). This pin
+follows it, and it follows during the upgrade drill — nothing here checks akron
+continuously.
 
 ## Database connection
 
 In the dev container, `DB_HOST` is set and `config/database.yml` connects to the
 `postgres` service with the container's credentials. CI and production supply
 `DATABASE_URL` instead.
+
+In production that value comes from a Secret homelab writes into timbot's
+namespace. It is the whole interface to the database: timbot names the Secret and
+knows nothing else about where the database runs (ADR 0003).
 
 ## Solid Queue
 
