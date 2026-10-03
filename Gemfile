@@ -63,4 +63,4 @@ gem "solid_queue", "~> 1.7"
 
 # ponytail: json 3 breaks ActiveSupport::JSON.decode on Rails 8.1.3.1 (positional
 # options to JSON.parse), which crashes the Solid Queue worker. Drop once Rails ships a fix.
-gem "json", "< 3"
+gem "json", "< 4"
